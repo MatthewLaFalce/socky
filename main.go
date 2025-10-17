@@ -19,6 +19,7 @@ func main() {
 	addr := flag.String("addr", "localhost:8080", "WebSocket server address")
 	path := flag.String("path", "/", "WebSocket path")
 	token := flag.String("token", "", "Authentication token (e.g. Bearer token)")
+	scheme := flag.String("scheme", "wss", "WebSocket scheme (ws or wss)")
 	flag.Parse()
 
 	// Re-parse to include DB flags even if they appear after the binary name
@@ -27,7 +28,7 @@ func main() {
 	interrupt := make(chan os.Signal, 1)
 	signal.Notify(interrupt, os.Interrupt)
 
-	u := url.URL{Scheme: "wss", Host: *addr, Path: *path}
+	u := url.URL{Scheme: *scheme, Host: *addr, Path: *path}
 	color.New(color.FgCyan).Printf("Connecting to %s\n", u.String())
 
 	// Set token header
